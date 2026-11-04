@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI OCR Reader</title>
+<meta name="description" content="AI OCR Reader: extract text from screenshots, scans and image documents in the browser with a vendored tesseract.js build, then clean it up and pull out emails, dates, amounts and totals. Demo mode is fully offline; live mode can tidy the text with your own OpenAI-compatible model.">
+<meta property="og:title" content="AI OCR Reader">
+<meta property="og:description" content="AI OCR Reader: extract text from screenshots, scans and image documents in the browser with a vendored tesseract.js build, then clean it up and pull out emails, dates, amounts and totals. Demo mode is fully offline; live mode can tidy the text with your own OpenAI-compatible model.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script src="vendor/tesseract/tesseract.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>AI OCR Reader</h1>
+    <div class="tagline">Screenshots, scans and photos to clean text, in your browser.</div>
+  </div>
+  <div class="right">
+    <span id="mode-badge" class="badge">Demo mode</span>
+    <button id="open-settings" class="secondary" type="button">Settings</button>
+  </div>
+</header>
+<main>
+<div class="grid two">
+  <section class="card" aria-labelledby="in-h">
+    <h2 id="in-h">Image or scan</h2>
+    <label for="file">Choose a screenshot, scan or photo (PNG, JPG, WebP)</label>
+    <input id="file" type="file" accept="image/*">
+    <img id="preview" alt="" hidden style="max-width:100%;border-radius:10px;margin-top:12px;border:1px solid var(--line)">
+    <div class="actions">
+      <button id="tidy" type="button" class="secondary" disabled>Tidy with model</button>
+    </div>
+    <div id="status" class="muted" role="status" aria-live="polite"></div>
+    <div id="error" class="error" role="alert" hidden></div>
+  </section>
+  <section class="card" aria-labelledby="out-h">
+    <h2 id="out-h">Text</h2>
+    <label for="raw">Raw OCR output (you can edit it)</label>
+    <textarea id="raw" placeholder="Text appears here after reading an image." style="min-height:110px"></textarea>
+    <h2 style="margin-top:18px">Cleaned and found</h2>
+    <div id="output" class="output" data-empty="Cleaned text and what was found in it appear here."></div>
+  </section>
+</div>
+
+</main>
+<footer>Built by Nived NS · MIT licence</footer>
+
+<dialog id="settings-dialog" aria-labelledby="settings-title">
+  <div class="dialog-body">
+    <h2 id="settings-title">Settings</h2>
+    <p class="muted">Demo mode works fully offline. Live mode sends your text to the OpenAI-compatible endpoint you enter here. Your key is stored only in this browser (localStorage), never committed, never sent anywhere else.</p>
+    <label for="settings-mode">Mode</label>
+    <select id="settings-mode">
+      <option value="demo">Demo (offline)</option>
+      <option value="live">Live (your API)</option>
+    </select>
+    <label for="settings-base-url">API base URL</label>
+    <input id="settings-base-url" type="url" placeholder="https://api.example.com/v1" autocomplete="off">
+    <label for="settings-api-key">API key</label>
+    <input id="settings-api-key" type="password" autocomplete="off">
+    <label for="settings-model">Model</label>
+    <input id="settings-model" type="text" placeholder="model-name" autocomplete="off">
+    <div id="settings-error" class="error" role="alert" hidden></div>
+    <div class="actions">
+      <button id="settings-save" type="button">Save settings</button>
+      <button id="settings-clear" type="button" class="secondary">Forget key</button>
+      <button id="close-settings" type="button" class="secondary">Close</button>
+    </div>
+  </div>
+</dialog>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

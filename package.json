@@ -1,0 +1,12 @@
+{
+  "name": "ai-ocr-reader",
+  "version": "1.0.0",
+  "description": "AI OCR Reader: extract text from screenshots, scans and image documents in the browser with a vendored tesseract.js build, then clean it up and pull out emails, dates, amounts and totals. Demo mode is fully offline; live mode can tidy the text with your own OpenAI-compatible model.",
+  "type": "module",
+  "private": false,
+  "author": "Nived NS",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
