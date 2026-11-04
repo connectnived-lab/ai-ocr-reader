@@ -32,8 +32,14 @@ def flow(page, mode):
         assert "Live mode" in page.inner_text("#error")
 
 
+def showcase(page):
+    page.set_input_files("#file", FIXTURE)
+    page.wait_for_function("() => document.querySelector('#raw').value.length > 0", timeout=120000)
+    page.wait_for_selector("#output .stat")
+
+
 if __name__ == "__main__":
     os.makedirs(SHOTS, exist_ok=True)
-    summary = run_e2e(ROOT, flow, mock_reply, shot_dir=SHOTS)
+    summary = run_e2e(ROOT, flow, mock_reply, shot_dir=SHOTS, showcase=showcase)
     print(json.dumps(summary))
     print("E2E PASS")
